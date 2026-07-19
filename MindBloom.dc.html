@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--mb-cream:#f6f2ea;--mb-card:#fdfbf6;--mb-text:#2c352d;--mb-muted:#71786f;--mb-green:#5b7b65;--mb-green-soft:#e8efe7;--mb-gold:#c6a15b;--mb-line:#e8e1d2;--mb-radius:22px;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Vazirmatn',sans-serif;background:var(--mb-cream);color:var(--mb-text);-webkit-font-smoothing:antialiased;line-height:1.75}
+::selection{background:var(--mb-green-soft)}
+a{color:var(--mb-green);text-decoration:none}
+a:hover{color:var(--mb-gold)}
+input,textarea{font-family:inherit}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes floaty2{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+</style>
+</helmet>
+
+<div dir="rtl" lang="fa" style="min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(1200px 700px at 90% -10%, #eef3ea 0%, transparent 55%), radial-gradient(1000px 600px at -10% 10%, #f3ecdf 0%, transparent 50%), var(--mb-cream)">
+
+  <!-- ===================== HEADER ===================== -->
+  <header style="position:sticky;top:0;z-index:60;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(246,242,234,.78);border-bottom:1px solid var(--mb-line)">
+    <div style="max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:space-between">
+      <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:11px;cursor:pointer;flex-shrink:0">
+        <div style="position:relative;width:38px;height:38px;flex-shrink:0">
+          <span style="position:absolute;top:2px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--mb-green);opacity:.9"></span>
+          <span style="position:absolute;bottom:2px;right:2px;width:16px;height:16px;border-radius:50%;background:var(--mb-gold);opacity:.85"></span>
+          <span style="position:absolute;bottom:3px;left:2px;width:15px;height:15px;border-radius:50%;background:#8aa894"></span>
+        </div>
+        <div style="display:flex;flex-direction:column;line-height:1.15">
+          <span style="font-weight:800;font-size:20px;letter-spacing:-.2px">مایندبلوم</span>
+          <span style="font-size:10px;color:var(--mb-muted);letter-spacing:2px;font-weight:500">MINDBLOOM</span>
+        </div>
+      </div>
+      <nav style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;flex:1;min-width:0">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="9">
+          <a onClick="{{ item.onClick }}" style="position:relative;padding:8px 12px;font-size:15px;font-weight:500;color:var(--mb-text);cursor:pointer;border-radius:10px;transition:color .2s,background .2s" style-hover="color:var(--mb-green);background:var(--mb-green-soft)">
+            {{ item.label }}
+            <sc-if value="{{ item.active }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute;bottom:2px;right:12px;left:12px;height:2px;border-radius:2px;background:var(--mb-gold)"></span>
+            </sc-if>
+          </a>
+        </sc-for>
+      </nav>
+      <button onClick="{{ bookNow }}" style="flex-shrink:0;display:inline-flex;align-items:center;gap:7px;background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:11px 22px;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 8px 20px -8px rgba(91,123,101,.6)" style-hover="transform:translateY(-2px);box-shadow:0 14px 26px -10px rgba(91,123,101,.75)">
+        رزرو جلسه
+        <span style="font-size:18px;line-height:0">↩</span>
+      </button>
+    </div>
+  </header>
+
+  <main style="flex:1">
+
+    <!-- ===================== HOME ===================== -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="animation:fadeUp .5s ease both">
+      <section style="max-width:1240px;margin:0 auto;padding:64px 24px 40px;display:flex;gap:56px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:320px">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:var(--mb-green-soft);color:var(--mb-green);padding:7px 15px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:22px">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--mb-green);animation:pulse 2s infinite"></span>
+            روان‌شناسی، کوچینگ و رشد فردی
+          </div>
+          <h1 style="font-size:clamp(38px,5.5vw,60px);line-height:1.18;font-weight:800;letter-spacing:-1px;margin:0 0 20px">
+            آرامش ذهن،<br><span style="color:var(--mb-green)">مسیر رشد</span> توست.
+          </h1>
+          <p style="font-size:clamp(17px,2vw,20px);color:var(--mb-muted);max-width:520px;margin:0 0 32px">
+            مایندبلوم کمکت می‌کند با شفافیت و اعتمادبه‌نفس رشد کنی — از مشاوره‌ی خصوصی آنلاین تا دوره‌ها و محتوای آموزشی، همه در کنار متخصص‌های همراه.
+          </p>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:38px">
+            <button onClick="{{ bookNow }}" style="display:inline-flex;align-items:center;gap:8px;background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:15px 30px;font-family:inherit;font-weight:600;font-size:16px;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 10px 24px -8px rgba(91,123,101,.6)" style-hover="transform:translateY(-2px);box-shadow:0 16px 30px -10px rgba(91,123,101,.75)">
+              رزرو اولین جلسه
+            </button>
+            <button onClick="{{ goServices }}" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--mb-green);border:1.6px solid var(--mb-green);border-radius:999px;padding:15px 30px;font-family:inherit;font-weight:600;font-size:16px;cursor:pointer;transition:background .25s" style-hover="background:var(--mb-green-soft)">
+              مشاهده خدمات
+            </button>
+          </div>
+          <div style="display:flex;gap:30px;flex-wrap:wrap">
+            <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+              <div>
+                <div style="font-size:26px;font-weight:800;color:var(--mb-green)">{{ s.v }}</div>
+                <div style="font-size:13px;color:var(--mb-muted)">{{ s.l }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="flex:1;min-width:320px;position:relative;height:440px">
+          <div style="position:absolute;inset:0;background:linear-gradient(150deg,#e8efe7,#f3ecdf);border-radius:36px;overflow:hidden">
+            <div style="position:absolute;top:-40px;left:-30px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#a9c3b0,#5b7b65);opacity:.55;filter:blur(6px);animation:floaty 7s ease-in-out infinite"></div>
+            <div style="position:absolute;bottom:-50px;right:-20px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#e6cd93,#c6a15b);opacity:.5;filter:blur(4px);animation:floaty2 8s ease-in-out infinite"></div>
+            <div style="position:absolute;top:120px;right:60px;width:90px;height:90px;border-radius:50%;background:#fff;opacity:.4;animation:floaty 9s ease-in-out infinite"></div>
+          </div>
+          <div style="position:absolute;bottom:26px;right:26px;left:26px;background:rgba(253,251,246,.92);backdrop-filter:blur(6px);border:1px solid var(--mb-line);border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 20px 40px -18px rgba(44,53,45,.3);animation:popIn .6s ease .3s both">
+            <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#8aa894,#5b7b65);flex-shrink:0"></div>
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:15px">جلسه‌ی بعدی تو</div>
+              <div style="font-size:13px;color:var(--mb-muted)">مشاوره فردی · ۶۰ دقیقه</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;background:var(--mb-green-soft);color:var(--mb-green);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600">
+              <span style="width:7px;height:7px;border-radius:50%;background:var(--mb-green)"></span>آنلاین
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="max-width:1240px;margin:0 auto;padding:8px 24px 20px">
+        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center;opacity:.75">
+          <sc-for list="{{ trust }}" as="t" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:14px;color:var(--mb-muted)">
+              <span style="width:9px;height:9px;border-radius:50%;background:var(--mb-gold)"></span>{{ t }}
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="max-width:1240px;margin:0 auto;padding:56px 24px">
+        <div style="text-align:center;margin-bottom:44px">
+          <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">خدمات ما</div>
+          <h2 style="font-size:clamp(28px,4vw,40px);font-weight:800;margin:0 0 12px;letter-spacing:-.5px">هر جا که در مسیر رشدت هستی</h2>
+          <p style="color:var(--mb-muted);font-size:18px;max-width:560px;margin:0 auto">خدمت مناسب حالت را انتخاب کن؛ ما همراهت هستیم.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px">
+          <sc-for list="{{ services }}" as="svc" hint-placeholder-count="6">
+            <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);padding:26px;transition:transform .3s,box-shadow .3s,border-color .3s;cursor:pointer" style-hover="transform:translateY(-6px);box-shadow:0 24px 44px -22px rgba(44,53,45,.35);border-color:#d8dccf" onClick="{{ svc.onBook }}">
+              <div style="position:relative;width:52px;height:52px;margin-bottom:18px">
+                <span style="{{ svc.dotA }}"></span>
+                <span style="{{ svc.dotB }}"></span>
+              </div>
+              <h3 style="font-size:20px;font-weight:700;margin:0 0 8px">{{ svc.t }}</h3>
+              <p style="color:var(--mb-muted);font-size:15px;margin:0 0 16px;line-height:1.7">{{ svc.d }}</p>
+              <span style="color:var(--mb-green);font-weight:600;font-size:14px">رزرو این خدمت ←</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="background:linear-gradient(180deg,transparent,#eef3ea 40%,#eef3ea 60%,transparent);padding:56px 0">
+        <div style="max-width:1240px;margin:0 auto;padding:0 24px">
+          <div style="text-align:center;margin-bottom:44px">
+            <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">چطور شروع می‌شود</div>
+            <h2 style="font-size:clamp(28px,4vw,40px);font-weight:800;margin:0;letter-spacing:-.5px">سه قدم ساده تا اولین جلسه</h2>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+            <sc-for list="{{ steps3 }}" as="st" hint-placeholder-count="3">
+              <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);padding:28px;text-align:center">
+                <div style="width:56px;height:56px;border-radius:50%;background:var(--mb-green-soft);color:var(--mb-green);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:0 auto 18px">{{ st.n }}</div>
+                <h3 style="font-size:19px;font-weight:700;margin:0 0 8px">{{ st.t }}</h3>
+                <p style="color:var(--mb-muted);font-size:15px;margin:0">{{ st.d }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section style="max-width:1240px;margin:0 auto;padding:56px 24px">
+        <div style="text-align:center;margin-bottom:40px">
+          <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">تجربه‌ی همراهان</div>
+          <h2 style="font-size:clamp(28px,4vw,40px);font-weight:800;margin:0;letter-spacing:-.5px">شکوفایی، قصه‌به‌قصه</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+          <sc-for list="{{ testimonials }}" as="tm" hint-placeholder-count="3">
+            <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);padding:28px">
+              <div style="color:var(--mb-gold);font-size:30px;line-height:1;margin-bottom:12px">”</div>
+              <p style="font-size:16px;line-height:1.85;margin:0 0 20px">{{ tm.q }}</p>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#c9dccf,#8aa894);flex-shrink:0"></div>
+                <div>
+                  <div style="font-weight:700;font-size:15px">{{ tm.n }}</div>
+                  <div style="font-size:13px;color:var(--mb-muted)">{{ tm.r }}</div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="max-width:1240px;margin:0 auto 64px;padding:0 24px">
+        <div style="background:linear-gradient(135deg,#5b7b65,#455f4e);border-radius:32px;padding:clamp(36px,6vw,64px);text-align:center;color:#fff;position:relative;overflow:hidden">
+          <span style="position:absolute;top:-60px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(198,161,91,.35);filter:blur(10px)"></span>
+          <span style="position:absolute;bottom:-70px;left:-30px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.1)"></span>
+          <div style="position:relative">
+            <h2 style="font-size:clamp(26px,4vw,42px);font-weight:800;margin:0 0 14px;letter-spacing:-.5px">امروز، اولین قدم را بردار</h2>
+            <p style="font-size:18px;opacity:.9;max-width:520px;margin:0 auto 28px">همین حالا جلسه‌ات را رزرو کن و مسیر رشد را با آرامش آغاز کن.</p>
+            <button onClick="{{ bookNow }}" style="background:#fff;color:var(--mb-green);border:none;border-radius:999px;padding:16px 36px;font-family:inherit;font-weight:700;font-size:17px;cursor:pointer;transition:transform .25s" style-hover="transform:translateY(-2px)">رزرو جلسه</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <!-- ===================== BOOK ===================== -->
+    <sc-if value="{{ isBook }}" hint-placeholder-val="{{ false }}">
+    <div style="animation:fadeUp .5s ease both;max-width:1000px;margin:0 auto;padding:48px 24px 72px">
+      <sc-if value="{{ showProgress }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="text-align:center;margin-bottom:34px">
+          <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:8px">رزرو جلسه</div>
+          <h1 style="font-size:clamp(28px,4vw,40px);font-weight:800;margin:0;letter-spacing:-.5px">جلسه‌ات را در چند قدم بساز</h1>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:42px;flex-wrap:wrap">
+          <sc-for list="{{ stepState }}" as="ps" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="{{ ps.pillStyle }}">
+                <span style="{{ ps.dotStyle }}">{{ ps.n }}</span>
+                {{ ps.l }}
+              </div>
+              <sc-if value="{{ ps.showBar }}" hint-placeholder-val="{{ true }}">
+                <span style="width:26px;height:2px;background:var(--mb-line);border-radius:2px"></span>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+      <div style="animation:fadeUp .4s ease both">
+        <h2 style="font-size:24px;font-weight:700;margin:0 0 20px">کدام خدمت را می‌خواهی؟</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px">
+          <sc-for list="{{ bookServices }}" as="svc" hint-placeholder-count="6">
+            <div onClick="{{ svc.onClick }}" style="{{ svc.cardStyle }}" style-hover="transform:translateY(-4px);box-shadow:0 20px 38px -22px rgba(44,53,45,.35)">
+              <div style="position:relative;width:44px;height:44px;margin-bottom:14px">
+                <span style="{{ svc.dotA }}"></span>
+                <span style="{{ svc.dotB }}"></span>
+              </div>
+              <h3 style="font-size:18px;font-weight:700;margin:0 0 6px">{{ svc.t }}</h3>
+              <p style="color:var(--mb-muted);font-size:14px;margin:0;line-height:1.6">{{ svc.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:fadeUp .4s ease both">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+          <h2 style="font-size:24px;font-weight:700;margin:0">مدت جلسه را انتخاب کن</h2>
+          <button onClick="{{ backTo1 }}" style="background:transparent;border:1.4px solid var(--mb-line);color:var(--mb-muted);border-radius:999px;padding:8px 18px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="border-color:var(--mb-green);color:var(--mb-green)">→ خدمت</button>
+        </div>
+        <div style="color:var(--mb-muted);font-size:15px;margin-bottom:22px">خدمت انتخابی: <span style="color:var(--mb-green);font-weight:700">{{ selService }}</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px">
+          <sc-for list="{{ durations }}" as="d" hint-placeholder-count="3">
+            <div onClick="{{ d.onClick }}" style="{{ d.cardStyle }}" style-hover="transform:translateY(-4px);box-shadow:0 20px 38px -22px rgba(44,53,45,.35)">
+                <sc-if value="{{ d.pop }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute;top:-11px;right:50%;transform:translateX(50%);background:var(--mb-gold);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px">محبوب‌ترین</span>
+                </sc-if>
+                <div style="font-size:34px;font-weight:800;color:var(--mb-green)">{{ d.min }}</div>
+                <div style="font-size:14px;color:var(--mb-muted);margin-bottom:14px">دقیقه</div>
+                <div style="font-size:15px;color:var(--mb-muted);margin-bottom:6px">{{ d.note }}</div>
+                <div style="font-size:18px;font-weight:700">{{ d.price }} <span style="font-size:13px;font-weight:500;color:var(--mb-muted)">تومان</span></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:fadeUp .4s ease both">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+          <h2 style="font-size:24px;font-weight:700;margin:0">تاریخ و ساعت جلسه</h2>
+          <button onClick="{{ backTo2 }}" style="background:transparent;border:1.4px solid var(--mb-line);color:var(--mb-muted);border-radius:999px;padding:8px 18px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="border-color:var(--mb-green);color:var(--mb-green)">→ مدت جلسه</button>
+        </div>
+        <div style="color:var(--mb-muted);font-size:15px;margin-bottom:22px">{{ selService }} · {{ selDurLabel }}</div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:12px">یک روز را انتخاب کن</div>
+        <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;margin-bottom:28px">
+          <sc-for list="{{ dateChips }}" as="dc" hint-placeholder-count="6">
+            <div onClick="{{ dc.onClick }}" style="{{ dc.chipStyle }}" style-hover="transform:translateY(-3px)">
+              <div style="font-size:14px;font-weight:600">{{ dc.wd }}</div>
+              <div style="font-size:15px;color:var(--mb-muted);margin-top:2px">{{ dc.d }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:12px">ساعت‌های آزاد</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-bottom:34px">
+          <sc-for list="{{ timeSlots }}" as="ts" hint-placeholder-count="7">
+            <div onClick="{{ ts.onClick }}" style="{{ ts.slotStyle }}">{{ ts.t }}</div>
+          </sc-for>
+        </div>
+        <div style="display:flex;justify-content:center">
+          <button onClick="{{ confirmBtn }}" style="{{ confirmBtnStyle }}" style-hover="transform:translateY(-2px)">تأیید و رزرو جلسه</button>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:popIn .5s ease both;text-align:center">
+        <div style="width:88px;height:88px;border-radius:50%;background:var(--mb-green-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 24px">
+          <span style="color:var(--mb-green);font-size:44px;line-height:1">✓</span>
+        </div>
+        <h1 style="font-size:clamp(28px,4vw,38px);font-weight:800;margin:0 0 12px;letter-spacing:-.5px">جلسه‌ات با موفقیت رزرو شد</h1>
+        <p style="color:var(--mb-muted);font-size:18px;margin:0 0 32px">جزئیات جلسه و لینک ورود برایت آماده است.</p>
+        <div style="max-width:520px;margin:0 auto 28px;background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);padding:28px;text-align:right">
+          <sc-for list="{{ confirmRows }}" as="r" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid var(--mb-line)">
+              <span style="color:var(--mb-muted);font-size:15px">{{ r.k }}</span>
+              <span style="font-weight:700;font-size:15px">{{ r.v }}</span>
+            </div>
+          </sc-for>
+          <div style="margin-top:20px;background:var(--mb-green-soft);border-radius:16px;padding:18px">
+            <div style="font-size:13px;color:var(--mb-muted);margin-bottom:6px">لینک جلسه‌ی آنلاین</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <span style="font-weight:700;color:var(--mb-green);font-size:15px;direction:ltr">meet.mindbloom.ir/az-9f3k</span>
+              <span style="background:var(--mb-green);color:#fff;font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;cursor:pointer">کپی لینک</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+          <button onClick="{{ goHome }}" style="background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:14px 30px;font-family:inherit;font-weight:600;font-size:16px;cursor:pointer;transition:transform .25s" style-hover="transform:translateY(-2px)">بازگشت به خانه</button>
+          <button onClick="{{ newBooking }}" style="background:transparent;border:1.6px solid var(--mb-green);color:var(--mb-green);border-radius:999px;padding:14px 30px;font-family:inherit;font-weight:600;font-size:16px;cursor:pointer;transition:background .2s" style-hover="background:var(--mb-green-soft)">رزرو جلسه‌ی دیگر</button>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- ===================== ABOUT ===================== -->
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+    <div style="animation:fadeUp .5s ease both;max-width:1100px;margin:0 auto;padding:56px 24px 72px">
+      <div style="text-align:center;max-width:680px;margin:0 auto 48px">
+        <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">درباره‌ی مایندبلوم</div>
+        <h1 style="font-size:clamp(30px,4.5vw,46px);font-weight:800;margin:0 0 18px;letter-spacing:-.5px">باور داریم رشد، حقِ همه است</h1>
+        <p style="color:var(--mb-muted);font-size:18px;line-height:1.9">ما تیمی از روان‌شناسان و کوچ‌های حرفه‌ای هستیم که فضایی امن، خصوصی و بدون قضاوت می‌سازیم تا هر کسی بتواند با آرامش، نسخه‌ی بهتری از خودش شود.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:56px">
+        <sc-for list="{{ values }}" as="v" hint-placeholder-count="3">
+          <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);padding:26px">
+            <div style="width:44px;height:44px;border-radius:14px;background:var(--mb-green-soft);margin-bottom:16px"></div>
+            <h3 style="font-size:19px;font-weight:700;margin:0 0 8px">{{ v.t }}</h3>
+            <p style="color:var(--mb-muted);font-size:15px;margin:0">{{ v.d }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <h2 style="font-size:28px;font-weight:800;text-align:center;margin:0 0 32px;letter-spacing:-.5px">تیم همراه تو</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px">
+        <sc-for list="{{ team }}" as="p" hint-placeholder-count="4">
+          <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);padding:24px;text-align:center">
+            <div style="width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#c9dccf,#8aa894);margin:0 auto 16px"></div>
+            <h3 style="font-size:18px;font-weight:700;margin:0 0 4px">{{ p.n }}</h3>
+            <p style="color:var(--mb-green);font-size:14px;font-weight:600;margin:0 0 8px">{{ p.r }}</p>
+            <p style="color:var(--mb-muted);font-size:13px;margin:0">{{ p.d }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== SERVICES PAGE ===================== -->
+    <sc-if value="{{ isServices }}" hint-placeholder-val="{{ false }}">
+    <div style="animation:fadeUp .5s ease both;max-width:1240px;margin:0 auto;padding:56px 24px 72px">
+      <div style="text-align:center;max-width:640px;margin:0 auto 46px">
+        <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">خدمات</div>
+        <h1 style="font-size:clamp(30px,4.5vw,46px);font-weight:800;margin:0 0 16px;letter-spacing:-.5px">خدمتی برای هر مرحله از زندگی</h1>
+        <p style="color:var(--mb-muted);font-size:18px">همه‌ی جلسات به‌صورت آنلاین، خصوصی و امن برگزار می‌شوند.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px">
+        <sc-for list="{{ services }}" as="svc" hint-placeholder-count="6">
+          <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);padding:28px;display:flex;flex-direction:column">
+            <div style="position:relative;width:52px;height:52px;margin-bottom:18px">
+              <span style="{{ svc.dotA }}"></span>
+              <span style="{{ svc.dotB }}"></span>
+            </div>
+            <h3 style="font-size:21px;font-weight:700;margin:0 0 8px">{{ svc.t }}</h3>
+            <p style="color:var(--mb-muted);font-size:15px;margin:0 0 20px;line-height:1.7;flex:1">{{ svc.long }}</p>
+            <button onClick="{{ svc.onBook }}" style="align-self:flex-start;background:var(--mb-green-soft);color:var(--mb-green);border:none;border-radius:999px;padding:11px 22px;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;transition:background .2s,color .2s" style-hover="background:var(--mb-green);color:#fff">رزرو جلسه</button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== BLOG ===================== -->
+    <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+    <div style="animation:fadeUp .5s ease both;max-width:1240px;margin:0 auto;padding:56px 24px 72px">
+      <div style="text-align:center;margin-bottom:44px">
+        <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">وبلاگ</div>
+        <h1 style="font-size:clamp(30px,4.5vw,46px);font-weight:800;margin:0 0 14px;letter-spacing:-.5px">نوشته‌هایی برای ذهن آرام</h1>
+        <p style="color:var(--mb-muted);font-size:18px">مقاله‌های کاربردی درباره‌ی سلامت روان و رشد فردی.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px">
+        <sc-for list="{{ blog }}" as="b" hint-placeholder-count="4">
+          <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-6px);box-shadow:0 24px 44px -22px rgba(44,53,45,.32)">
+            <div style="{{ b.imgStyle }}">
+              <span style="position:absolute;top:14px;right:14px;background:rgba(253,251,246,.9);color:var(--mb-green);font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px">{{ b.cat }}</span>
+            </div>
+            <div style="padding:22px">
+              <h3 style="font-size:19px;font-weight:700;margin:0 0 10px;line-height:1.55">{{ b.t }}</h3>
+              <p style="color:var(--mb-muted);font-size:14px;margin:0 0 16px;line-height:1.7">{{ b.d }}</p>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mb-muted)">
+                <span>{{ b.date }}</span>
+                <span style="color:var(--mb-green);font-weight:600">خواندن ←</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== COURSES ===================== -->
+    <sc-if value="{{ isCourses }}" hint-placeholder-val="{{ false }}">
+    <div style="animation:fadeUp .5s ease both;max-width:1240px;margin:0 auto;padding:56px 24px 72px">
+      <div style="text-align:center;margin-bottom:44px">
+        <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">دوره‌ها</div>
+        <h1 style="font-size:clamp(30px,4.5vw,46px);font-weight:800;margin:0 0 14px;letter-spacing:-.5px">با ریتم خودت یاد بگیر</h1>
+        <p style="color:var(--mb-muted);font-size:18px">دوره‌های ساختارمند برای رشد گام‌به‌گام.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px">
+        <sc-for list="{{ courses }}" as="c" hint-placeholder-count="3">
+          <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);overflow:hidden;display:flex;flex-direction:column">
+            <div style="{{ c.imgStyle }}"></div>
+            <div style="padding:24px;display:flex;flex-direction:column;flex:1">
+              <div style="display:flex;gap:10px;margin-bottom:12px;font-size:13px;color:var(--mb-muted)">
+                <span style="background:var(--mb-green-soft);color:var(--mb-green);padding:4px 12px;border-radius:999px;font-weight:600">{{ c.len }}</span>
+                <span style="align-self:center">{{ c.lessons }}</span>
+              </div>
+              <h3 style="font-size:20px;font-weight:700;margin:0 0 8px">{{ c.t }}</h3>
+              <p style="color:var(--mb-muted);font-size:14px;margin:0 0 18px;line-height:1.7;flex:1">{{ c.d }}</p>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span style="font-size:18px;font-weight:800;color:var(--mb-green)">{{ c.price }}</span>
+                <button style="background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:9px 20px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer">ثبت‌نام</button>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== MEDIA ===================== -->
+    <sc-if value="{{ isMedia }}" hint-placeholder-val="{{ false }}">
+    <div style="animation:fadeUp .5s ease both;max-width:1240px;margin:0 auto;padding:56px 24px 72px">
+      <div style="text-align:center;margin-bottom:44px">
+        <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">پادکست و ویدیو</div>
+        <h1 style="font-size:clamp(30px,4.5vw,46px);font-weight:800;margin:0 0 14px;letter-spacing:-.5px">شکوفایی، در گوش و نگاه تو</h1>
+        <p style="color:var(--mb-muted);font-size:18px">اپیزودها و ویدیوهایی برای لحظه‌های آرامت.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px">
+        <sc-for list="{{ media }}" as="m" hint-placeholder-count="4">
+          <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-5px);box-shadow:0 22px 40px -22px rgba(44,53,45,.3)">
+            <div style="{{ m.imgStyle }}">
+              <div style="width:56px;height:56px;border-radius:50%;background:rgba(253,251,246,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(0,0,0,.25)">
+                <span style="color:var(--mb-green);font-size:20px;margin-right:-3px">▶</span>
+              </div>
+              <span style="position:absolute;bottom:12px;left:12px;background:rgba(44,53,45,.75);color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:8px">{{ m.dur }}</span>
+            </div>
+            <div style="padding:20px">
+              <span style="font-size:12px;font-weight:700;color:var(--mb-gold)">{{ m.type }}</span>
+              <h3 style="font-size:17px;font-weight:700;margin:8px 0 0;line-height:1.6">{{ m.t }}</h3>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== FAQ ===================== -->
+    <sc-if value="{{ isFaq }}" hint-placeholder-val="{{ false }}">
+    <div style="animation:fadeUp .5s ease both;max-width:820px;margin:0 auto;padding:56px 24px 72px">
+      <div style="text-align:center;margin-bottom:44px">
+        <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">سوالات متداول</div>
+        <h1 style="font-size:clamp(30px,4.5vw,46px);font-weight:800;margin:0 0 14px;letter-spacing:-.5px">هر چه لازم است بدانی</h1>
+        <p style="color:var(--mb-muted);font-size:18px">پاسخ پرسش‌های پرتکرار درباره‌ی جلسات مایندبلوم.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+          <div onClick="{{ f.onClick }}" style="{{ f.cardStyle }}">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:14px">
+              <h3 style="font-size:17px;font-weight:700;margin:0">{{ f.q }}</h3>
+              <span style="{{ f.plusStyle }}">+</span>
+            </div>
+            <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+              <p style="color:var(--mb-muted);font-size:15px;line-height:1.85;margin:14px 0 0">{{ f.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== CONTACT ===================== -->
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <div style="animation:fadeUp .5s ease both;max-width:1080px;margin:0 auto;padding:56px 24px 72px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:start">
+        <div>
+          <div style="color:var(--mb-gold);font-weight:700;font-size:14px;letter-spacing:1px;margin-bottom:10px">تماس با ما</div>
+          <h1 style="font-size:clamp(28px,4vw,42px);font-weight:800;margin:0 0 16px;letter-spacing:-.5px">حرفت را با ما در میان بگذار</h1>
+          <p style="color:var(--mb-muted);font-size:17px;line-height:1.9;margin:0 0 28px">هر سوالی داری، تیم پشتیبانی ما با آرامش پاسخگوی توست. معمولاً کمتر از یک روز کاری پاسخ می‌دهیم.</p>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ contactInfo }}" as="ci" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="width:44px;height:44px;border-radius:14px;background:var(--mb-green-soft);flex-shrink:0"></div>
+                <div>
+                  <div style="font-size:13px;color:var(--mb-muted)">{{ ci.k }}</div>
+                  <div style="font-weight:700;font-size:16px">{{ ci.v }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);padding:30px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <label style="display:block;font-size:14px;font-weight:600;margin-bottom:7px">نام و نام خانوادگی</label>
+              <input placeholder="نام تو" style="width:100%;font-size:15px;padding:13px 16px;border:1.4px solid var(--mb-line);border-radius:12px;background:var(--mb-cream);outline:none">
+            </div>
+            <div>
+              <label style="display:block;font-size:14px;font-weight:600;margin-bottom:7px">ایمیل یا شماره تماس</label>
+              <input placeholder="راه ارتباطی" style="width:100%;font-size:15px;padding:13px 16px;border:1.4px solid var(--mb-line);border-radius:12px;background:var(--mb-cream);outline:none">
+            </div>
+            <div>
+              <label style="display:block;font-size:14px;font-weight:600;margin-bottom:7px">پیام تو</label>
+              <textarea placeholder="چطور می‌توانیم کمکت کنیم؟" style="width:100%;font-size:15px;padding:13px 16px;border:1.4px solid var(--mb-line);border-radius:12px;background:var(--mb-cream);outline:none;min-height:120px;resize:vertical"></textarea>
+            </div>
+            <button style="background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:15px;font-family:inherit;font-weight:600;font-size:16px;cursor:pointer;transition:transform .25s" style-hover="transform:translateY(-2px)">ارسال پیام</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer style="background:#2c352d;color:#e7e3da;margin-top:auto">
+    <div style="max-width:1240px;margin:0 auto;padding:52px 24px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px">
+      <div>
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:16px">
+          <div style="position:relative;width:34px;height:34px">
+            <span style="position:absolute;top:2px;right:7px;width:18px;height:18px;border-radius:50%;background:#8aa894"></span>
+            <span style="position:absolute;bottom:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--mb-gold)"></span>
+            <span style="position:absolute;bottom:3px;left:2px;width:13px;height:13px;border-radius:50%;background:#c9dccf"></span>
+          </div>
+          <span style="font-weight:800;font-size:19px;color:#fff">مایندبلوم</span>
+        </div>
+        <p style="color:#a9b0a4;font-size:15px;line-height:1.85;max-width:300px;margin:0">همراه تو برای رشد، با شفافیت و اعتمادبه‌نفس. فضایی امن برای سلامت روان و شکوفایی فردی.</p>
+      </div>
+      <div>
+        <div style="font-weight:700;color:#fff;font-size:15px;margin-bottom:14px">صفحات</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ footNav1 }}" as="fn" hint-placeholder-count="4">
+            <span onClick="{{ fn.onClick }}" style="color:#a9b0a4;font-size:14px;cursor:pointer;transition:color .2s" style-hover="color:#fff">{{ fn.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:#fff;font-size:15px;margin-bottom:14px">بیشتر</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ footNav2 }}" as="fn" hint-placeholder-count="4">
+            <span onClick="{{ fn.onClick }}" style="color:#a9b0a4;font-size:14px;cursor:pointer;transition:color .2s" style-hover="color:#fff">{{ fn.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:#fff;font-size:15px;margin-bottom:14px">خبرنامه‌ی آرامش</div>
+        <p style="color:#a9b0a4;font-size:14px;margin:0 0 14px">هفته‌ای یک نکته برای ذهن آرام.</p>
+        <div style="display:flex;background:#3a453b;border-radius:999px;padding:5px;gap:6px">
+          <input placeholder="ایمیل تو" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#fff;font-size:14px;padding:8px 14px">
+          <button style="background:var(--mb-gold);color:#2c352d;border:none;border-radius:999px;padding:8px 18px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">عضویت</button>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid #3a453b">
+      <div style="max-width:1240px;margin:0 auto;padding:20px 24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:#8a917f;font-size:13px">
+        <span>© ۱۴۰۴ مایندبلوم — همه‌ی حقوق محفوظ است.</span>
+        <span>ساخته‌شده با آرامش · نمونه‌ی نمایشی</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:880},&quot;greenPrimary&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#5b7b65&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;تم رنگی&quot;,&quot;options&quot;:[&quot;#5b7b65&quot;,&quot;#4f6f5a&quot;,&quot;#6f8f74&quot;,&quot;#5a7d8a&quot;]},&quot;goldAccent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#c6a15b&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;تم رنگی&quot;,&quot;options&quot;:[&quot;#c6a15b&quot;,&quot;#d4b678&quot;,&quot;#b98d4a&quot;,&quot;#caa96a&quot;]},&quot;cornerRadius&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:22,&quot;min&quot;:8,&quot;max&quot;:32,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;ظاهر&quot;}}">
+class Component extends DCLogic {
+  state = { page:'home', bookStep:1, service:null, duration:null, date:null, time:null, faqOpen:0 };
+
+  componentDidMount(){ this.applyTheme(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  applyTheme(){
+    if(typeof document==='undefined') return;
+    const r=document.documentElement.style;
+    r.setProperty('--mb-green', this.props.greenPrimary || '#5b7b65');
+    r.setProperty('--mb-gold', this.props.goldAccent || '#c6a15b');
+    r.setProperty('--mb-radius', (this.props.cornerRadius!=null?this.props.cornerRadius:22)+'px');
+  }
+  top(){ if(typeof window!=='undefined'){ try{ window.scrollTo(0,0); }catch(e){} } }
+  go(p){ this.setState({page:p}); this.top(); }
+  bookNow(){ this.setState({page:'book',bookStep:1}); this.top(); }
+  pickBook(id){ this.setState({page:'book',bookStep:2,service:id}); this.top(); }
+  selectService(id){ this.setState({service:id,bookStep:2}); }
+  selectDuration(m){ this.setState({duration:m,bookStep:3}); }
+  selectDate(id){ this.setState({date:id}); }
+  selectTime(t){ this.setState({time:t}); }
+  confirm(){ if(this.state.date&&this.state.time){ this.setState({bookStep:4}); this.top(); } }
+  gotoStep(n){ this.setState({bookStep:n}); }
+  toggleFaq(i){ this.setState(s=>({faqOpen: s.faqOpen===i?-1:i})); }
+  newBooking(){ this.setState({page:'book',bookStep:1,service:null,duration:null,date:null,time:null}); this.top(); }
+
+  renderVals(){
+    const S=this.state;
+    const green='var(--mb-green)', soft='var(--mb-green-soft)', line='var(--mb-line)', muted='var(--mb-muted)', card='var(--mb-card)', radius='var(--mb-radius)', text='var(--mb-text)';
+    const dot=(c,sz,op,pos)=>Object.assign({position:'absolute',width:sz,height:sz,borderRadius:'50%',background:c,opacity:op},pos);
+
+    const nav=[['home','خانه'],['about','درباره ما'],['services','خدمات'],['book','رزرو جلسه'],['blog','وبلاگ'],['courses','دوره‌ها'],['media','پادکست و ویدیو'],['faq','سوالات متداول'],['contact','تماس']];
+    const navItems=nav.map(([id,label])=>({id,label,active:S.page===id,onClick:()=>this.go(id)}));
+
+    const SERVICES=[
+      {id:'individual',t:'مشاوره فردی آنلاین',c:'#5b7b65',d:'گفت‌وگوی خصوصی و امن با روان‌شناس متخصص، هر جا که هستی.',long:'جلسه‌ای اختصاصی و محرمانه با روان‌شناس، برای عبور از چالش‌های فردی و رسیدن به آرامش پایدار.'},
+      {id:'coaching',t:'کوچینگ رشد فردی',c:'#c6a15b',d:'همراهی هدفمند برای رسیدن به نسخه‌ی بهتری از خودت.',long:'با یک کوچ حرفه‌ای اهدافت را روشن کن، مسیر بساز و قدم‌به‌قدم به‌سمت زندگی دلخواهت حرکت کن.'},
+      {id:'couple',t:'مشاوره زوج و رابطه',c:'#7a9b83',d:'بازسازی ارتباط و درک عمیق‌تر در کنار هم.',long:'فضایی امن برای گفت‌وگو، حل تعارض و ساختن رابطه‌ای صمیمی‌تر و سالم‌تر در کنار هم.'},
+      {id:'stress',t:'مدیریت استرس و اضطراب',c:'#b98d4a',d:'ابزارهای علمی و ساده برای آرام‌کردن ذهن.',long:'تکنیک‌های کاربردی و مبتنی بر شواهد برای کاهش اضطراب، آرام‌کردن ذهن و بازیابی تمرکز.'},
+      {id:'career',t:'مشاوره شغلی و مسیر زندگی',c:'#5b7b65',d:'پیدا کردن مسیری معنادار در کار و زندگی.',long:'استعدادها و ارزش‌هایت را بشناس و تصمیم‌های حرفه‌ای‌ات را با اطمینان بیشتری بگیر.'},
+      {id:'teen',t:'جلسات نوجوان و خانواده',c:'#7a9b83',d:'پشتیبانی روان‌شناختی برای نوجوانان و والدین.',long:'همراهی تخصصی برای نوجوانان و خانواده‌ها در عبور از دوره‌های حساس رشد و ارتباط.'}
+    ];
+    const services=SERVICES.map(s=>({...s,
+      dotA:dot(s.c,'30px',.9,{top:0,right:'8px'}),
+      dotB:dot(s.c,'22px',.45,{bottom:0,right:0}),
+      onBook:()=>this.pickBook(s.id)}));
+    const bookServices=SERVICES.map(s=>({...s,
+      dotA:dot(s.c,'26px',.9,{top:0,right:'6px'}),
+      dotB:dot(s.c,'18px',.45,{bottom:0,right:0}),
+      cardStyle:{background:card,border:'1.6px solid '+(S.service===s.id?green:line),borderRadius:radius,padding:'22px',cursor:'pointer',transition:'transform .25s,box-shadow .25s,border-color .25s'},
+      onClick:()=>this.selectService(s.id)}));
+    const selSvc=SERVICES.find(s=>s.id===S.service);
+    const selService=selSvc?selSvc.t:'—';
+
+    const DUR=[{m:45,note:'جلسه‌ی فشرده و متمرکز',price:'۲۵۰٬۰۰۰',min:'۴۵'},{m:60,note:'محبوب‌ترین انتخاب',price:'۳۲۰٬۰۰۰',min:'۶۰',pop:true},{m:90,note:'برای کار عمیق‌تر',price:'۴۵۰٬۰۰۰',min:'۹۰'}];
+    const durations=DUR.map(d=>({...d,
+      cardStyle:{position:'relative',background:card,border:'2px solid '+(S.duration===d.m?green:line),borderRadius:radius,padding:'26px 22px',textAlign:'center',cursor:'pointer',transition:'transform .25s,box-shadow .25s'},
+      onClick:()=>this.selectDuration(d.m)}));
+    const durObj=DUR.find(d=>d.m===S.duration);
+    const selDurLabel=durObj?(durObj.min+' دقیقه'):'—';
+
+    const DATES=[{id:'d1',wd:'شنبه',d:'۲۸ تیر'},{id:'d2',wd:'یک‌شنبه',d:'۲۹ تیر'},{id:'d3',wd:'دوشنبه',d:'۳۰ تیر'},{id:'d4',wd:'سه‌شنبه',d:'۳۱ تیر'},{id:'d5',wd:'چهارشنبه',d:'۱ مرداد'},{id:'d6',wd:'پنج‌شنبه',d:'۲ مرداد'}];
+    const dateChips=DATES.map(dt=>({...dt,
+      chipStyle:{flex:'0 0 auto',minWidth:'96px',textAlign:'center',background:card,border:'2px solid '+(S.date===dt.id?green:line),color:S.date===dt.id?green:text,borderRadius:'16px',padding:'14px 12px',cursor:'pointer',transition:'border-color .2s,transform .2s'},
+      onClick:()=>this.selectDate(dt.id)}));
+    const dateObj=DATES.find(d=>d.id===S.date);
+
+    const TIMES=[{t:'۹:۰۰',av:true},{t:'۱۰:۳۰',av:false},{t:'۱۲:۰۰',av:true},{t:'۱۴:۰۰',av:true},{t:'۱۵:۳۰',av:false},{t:'۱۷:۰۰',av:true},{t:'۱۸:۳۰',av:true}];
+    const timeSlots=TIMES.map(x=>{
+      const sel=S.time===x.t;
+      return {t:x.t,
+        slotStyle:{textAlign:'center',padding:'13px 10px',borderRadius:'14px',
+          border:'2px solid '+((sel&&x.av)?green:line),
+          background:!x.av?'transparent':(sel?green:card),
+          color:!x.av?muted:(sel?'#fff':text),
+          fontWeight:600,fontSize:'15px',
+          cursor:x.av?'pointer':'not-allowed',opacity:x.av?1:.45,transition:'all .2s'},
+        onClick:x.av?(()=>this.selectTime(x.t)):null };
+    });
+
+    const canConfirm=!!(S.date&&S.time);
+    const confirmBtnStyle={background:canConfirm?green:'#b9c4bb',color:'#fff',border:'none',borderRadius:'999px',padding:'16px 40px',fontFamily:'inherit',fontWeight:700,fontSize:'17px',cursor:canConfirm?'pointer':'not-allowed',opacity:canConfirm?1:.7,transition:'transform .25s',boxShadow:'0 12px 26px -10px rgba(91,123,101,.6)'};
+
+    const STEPS=[{n:'۱',l:'خدمت'},{n:'۲',l:'مدت جلسه'},{n:'۳',l:'تاریخ و ساعت'}];
+    const stepState=STEPS.map((st,i)=>{
+      const idx=i+1, done=S.bookStep>idx, cur=S.bookStep===idx, act=cur||done;
+      return {n:st.n,l:st.l,showBar:i<STEPS.length-1,
+        pillStyle:{display:'flex',alignItems:'center',gap:'10px',padding:'8px 16px',borderRadius:'999px',background:cur?soft:'transparent',color:act?green:muted,fontWeight:600,fontSize:'14px',transition:'all .3s'},
+        dotStyle:{width:'24px',height:'24px',borderRadius:'50%',background:act?green:'#dfe4da',color:act?'#fff':muted,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'13px',fontWeight:800}};
+    });
+
+    const confirmRows=[
+      {k:'خدمت',v:selService},
+      {k:'مدت جلسه',v:selDurLabel},
+      {k:'تاریخ',v:dateObj?(dateObj.wd+'، '+dateObj.d):'—'},
+      {k:'ساعت',v:S.time||'—'}
+    ];
+
+    const FAQ=[
+      {q:'جلسات به چه صورت برگزار می‌شوند؟',a:'همه‌ی جلسات به‌صورت آنلاین و از طریق تماس تصویری امن برگزار می‌شوند. پس از رزرو، یک لینک اختصاصی برای ورود به جلسه دریافت می‌کنی.'},
+      {q:'هزینه‌ی جلسات چقدر است؟',a:'هزینه بسته به نوع خدمت و مدت جلسه متفاوت است؛ جلسات از ۴۵ دقیقه با ۲۵۰٬۰۰۰ تومان آغاز می‌شوند و در مرحله‌ی رزرو به‌طور شفاف نمایش داده می‌شود.'},
+      {q:'آیا اطلاعات من محرمانه می‌ماند؟',a:'بله. حریم خصوصی و رازداری اصل بنیادین ماست؛ تمام گفت‌وگوها کاملاً محرمانه و امن نگه‌داری می‌شوند.'},
+      {q:'چطور می‌توانم جلسه را لغو یا جابه‌جا کنم؟',a:'تا ۲۴ ساعت پیش از جلسه می‌توانی به‌سادگی از پنل کاربری، جلسه را لغو یا به زمان دیگری منتقل کنی.'},
+      {q:'آیا مشاوره‌ی آنلاین واقعاً مؤثر است؟',a:'پژوهش‌ها نشان می‌دهند مشاوره‌ی آنلاین در بسیاری از موارد به‌اندازه‌ی جلسات حضوری اثربخش است و دسترسی و راحتی بیشتری فراهم می‌کند.'}
+    ];
+    const faqs=FAQ.map((f,i)=>({...f,open:S.faqOpen===i,onClick:()=>this.toggleFaq(i),
+      cardStyle:{background:card,border:'1px solid '+(S.faqOpen===i?green:line),borderRadius:'18px',padding:'22px 24px',cursor:'pointer',transition:'border-color .2s'},
+      plusStyle:{color:green,fontSize:'22px',fontWeight:700,transform:S.faqOpen===i?'rotate(45deg)':'none',transition:'transform .3s',flexShrink:0}}));
+
+    const blogBg=['linear-gradient(135deg,#e8efe7,#c9dccf)','linear-gradient(135deg,#f3ecdf,#e6cd93)','linear-gradient(135deg,#dfe9e0,#a9c3b0)','linear-gradient(135deg,#efe7d6,#d8c79b)'];
+    const BLOG=[
+      {cat:'ذهن‌آگاهی',t:'۵ تمرین ساده برای کاهش اضطراب روزانه',d:'تکنیک‌های کوچکی که در چند دقیقه ذهنت را آرام می‌کنند.',date:'۱۵ تیر ۱۴۰۴'},
+      {cat:'روابط',t:'چطور مرزهای سالم در روابط بسازیم؟',d:'مرزگذاری یعنی احترام به خود و دیگری؛ از کجا شروع کنیم.',date:'۹ تیر ۱۴۰۴'},
+      {cat:'رشد فردی',t:'شفقت به خود؛ مهارتی که کم آموخته‌ایم',d:'مهربانی با خودت، پایه‌ی هر تغییر پایدار است.',date:'۲ تیر ۱۴۰۴'},
+      {cat:'سبک زندگی',t:'خواب بهتر، ذهن آرام‌تر',d:'رابطه‌ی خواب و سلامت روان و چند عادت ساده‌ی مؤثر.',date:'۲۸ خرداد ۱۴۰۴'}
+    ];
+    const blog=BLOG.map((b,i)=>({...b,imgStyle:{height:'170px',background:blogBg[i%blogBg.length],position:'relative'}}));
+
+    const courseBg=['linear-gradient(135deg,#5b7b65,#8aa894)','linear-gradient(135deg,#c6a15b,#e6cd93)','linear-gradient(135deg,#7a9b83,#c9dccf)'];
+    const COURSES=[
+      {t:'دوره‌ی جامع مدیریت اضطراب',d:'مسیری هشت‌هفته‌ای برای شناخت و کنترل اضطراب با تمرین‌های عملی.',len:'۸ هفته',lessons:'۲۴ درس',price:'۹۹۰٬۰۰۰ ت'},
+      {t:'مسیر شفقت به خود',d:'یاد بگیر با خودت مهربان باشی و از انتقاد درونی رها شوی.',len:'۶ هفته',lessons:'۱۸ درس',price:'۷۹۰٬۰۰۰ ت'},
+      {t:'ارتباط مؤثر در رابطه',d:'مهارت‌های گفت‌وگو و همدلی برای رابطه‌ای عمیق‌تر.',len:'۴ هفته',lessons:'۱۲ درس',price:'۶۵۰٬۰۰۰ ت'}
+    ];
+    const courses=COURSES.map((c,i)=>({...c,imgStyle:{height:'150px',background:courseBg[i%courseBg.length]}}));
+
+    const mediaBg=['linear-gradient(135deg,#5b7b65,#455f4e)','linear-gradient(135deg,#c6a15b,#a37f3e)','linear-gradient(135deg,#7a9b83,#5b7b65)','linear-gradient(135deg,#8aa894,#c9dccf)'];
+    const MEDIA=[
+      {type:'پادکست شکوفایی',t:'قسمت ۱۲: وقتی ترس سراغت می‌آید چه کنیم؟',dur:'۳۲:۱۰'},
+      {type:'ویدیو',t:'تمرین تنفس ۵ دقیقه‌ای برای آرامش فوری',dur:'۵:۲۴'},
+      {type:'پادکست شکوفایی',t:'گفت‌وگو درباره‌ی فرسودگی شغلی',dur:'۴۱:۰۵'},
+      {type:'ویدیو',t:'سه گام برای شروع صبح با ذهن آرام',dur:'۸:۴۷'}
+    ];
+    const media=MEDIA.map((m,i)=>({...m,imgStyle:{height:'160px',background:mediaBg[i%mediaBg.length],position:'relative',display:'flex',alignItems:'center',justifyContent:'center'}}));
+
+    const stats=[{v:'+۵۰۰۰',l:'جلسه‌ی موفق'},{v:'٪۹۸',l:'رضایت مراجعان'},{v:'+۴۰',l:'متخصص همراه'}];
+    const trust=['روان‌شناسان دارای مجوز','کاملاً محرمانه','پشتیبانی ۷ روز هفته','لغو آسان تا ۲۴ ساعت'];
+    const steps3=[
+      {n:'۱',t:'خدمت را انتخاب کن',d:'از میان خدمات ما، مناسب حال خودت را برگزین.'},
+      {n:'۲',t:'زمان را رزرو کن',d:'مدت و ساعت دلخواهت را از تقویم انتخاب کن.'},
+      {n:'۳',t:'وارد جلسه شو',d:'در زمان مقرر با لینک اختصاصی به جلسه بپیوند.'}
+    ];
+    const testimonials=[
+      {q:'بعد از چند جلسه احساس کردم دوباره کنترل زندگی‌ام دست خودم است. فضای امن و بدون قضاوتی که ساختند، همه‌چیز را تغییر داد.',n:'سارا م.',r:'مراجع کوچینگ'},
+      {q:'مشاوره‌ی آنلاین را جدی نمی‌گرفتم، اما تجربه‌ام کاملاً حرفه‌ای و اثرگذار بود. دسترسی آسان و آرامشش بی‌نظیر است.',n:'امیر ک.',r:'مشاوره فردی'},
+      {q:'دوره‌ی شفقت به خود، نگاهم را به خودم عوض کرد. با ریتم خودم پیش رفتم و واقعاً رشد کردم.',n:'نگار ت.',r:'دانش‌پذیر دوره'}
+    ];
+    const values=[
+      {t:'رازداری کامل',d:'حریم خصوصی تو اصل اول ماست؛ همه‌چیز محرمانه می‌ماند.'},
+      {t:'رویکرد علمی',d:'روش‌های ما مبتنی بر شواهد و دانش روز روان‌شناسی است.'},
+      {t:'همدلی و احترام',d:'بدون قضاوت، در کنارت و همراه با تو در مسیر رشد.'}
+    ];
+    const team=[
+      {n:'دکتر لیلا رحیمی',r:'روان‌شناس بالینی',d:'۱۲ سال تجربه در درمان اضطراب و افسردگی'},
+      {n:'آرمان مرادی',r:'کوچ رشد فردی',d:'متخصص هدف‌گذاری و انگیزش'},
+      {n:'دکتر نیما صادقی',r:'مشاور خانواده',d:'متخصص روابط و مشاوره‌ی زوج'},
+      {n:'مریم کریمی',r:'روان‌شناس نوجوان',d:'همراه نوجوانان و والدین'}
+    ];
+    const contactInfo=[
+      {k:'ایمیل',v:'hello@mindbloom.ir'},
+      {k:'تلفن پشتیبانی',v:'۰۲۱ - ۹۱۰۰ ۲۰۳۰'},
+      {k:'ساعات پاسخگویی',v:'شنبه تا پنج‌شنبه، ۹ تا ۲۰'}
+    ];
+    const footNav1=[navItems[0],navItems[1],navItems[2],navItems[3]];
+    const footNav2=[navItems[4],navItems[5],navItems[6],navItems[7]];
+
+    return {
+      navItems,
+      isHome:S.page==='home', isBook:S.page==='book', isAbout:S.page==='about',
+      isServices:S.page==='services', isBlog:S.page==='blog', isCourses:S.page==='courses',
+      isMedia:S.page==='media', isFaq:S.page==='faq', isContact:S.page==='contact',
+      goHome:()=>this.go('home'), goServices:()=>this.go('services'), bookNow:()=>this.bookNow(),
+      services, bookServices, selService, durations, selDurLabel, dateChips, timeSlots,
+      confirmBtn:()=>this.confirm(), confirmBtnStyle,
+      isStep1:S.bookStep===1, isStep2:S.bookStep===2, isStep3:S.bookStep===3, isDone:S.bookStep===4,
+      showProgress:S.bookStep<4, stepState, confirmRows,
+      backTo1:()=>this.gotoStep(1), backTo2:()=>this.gotoStep(2), newBooking:()=>this.newBooking(),
+      faqs, blog, courses, media, stats, trust, steps3, testimonials, values, team, contactInfo,
+      footNav1, footNav2
+    };
+  }
+}
+</script>
+</body>
+</html>
