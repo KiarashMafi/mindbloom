@@ -44,7 +44,7 @@ input,textarea{font-family:inherit}
 
   <!-- ===================== HEADER ===================== -->
   <header style="position:sticky;top:0;z-index:60;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(246,242,234,.78);border-bottom:1px solid var(--mb-line)">
-    <div style="max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:space-between">
+    <div style="max-width:1240px;margin:0 auto;padding:12px clamp(16px,4vw,24px);display:flex;align-items:center;gap:14px;justify-content:space-between">
       <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:11px;cursor:pointer;flex-shrink:0">
         <div style="position:relative;width:38px;height:38px;flex-shrink:0">
           <span style="position:absolute;top:2px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--mb-green);opacity:.9"></span>
@@ -56,21 +56,44 @@ input,textarea{font-family:inherit}
           <span style="font-size:10px;color:var(--mb-muted);letter-spacing:2px;font-weight:500">MINDBLOOM</span>
         </div>
       </div>
-      <nav style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;flex:1;min-width:0">
+
+      <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+          <button onClick="{{ bookNow }}" style="flex-shrink:0;display:inline-flex;align-items:center;gap:6px;background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:9px 16px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer">
+            رزرو
+          </button>
+          <button onClick="{{ toggleMenu }}" aria-label="منو" style="width:42px;height:42px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--mb-green-soft);color:var(--mb-green);border:none;border-radius:12px;cursor:pointer;font-size:20px">
+            {{ menuIcon }}
+          </button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;flex:1;min-width:0">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="9">
+            <a onClick="{{ item.onClick }}" style="position:relative;padding:8px 12px;font-size:15px;font-weight:500;color:var(--mb-text);cursor:pointer;border-radius:10px;transition:color .2s,background .2s;white-space:nowrap" style-hover="color:var(--mb-green);background:var(--mb-green-soft)">
+              {{ item.label }}
+              <sc-if value="{{ item.active }}" hint-placeholder-val="{{ false }}">
+                <span style="position:absolute;bottom:2px;right:12px;left:12px;height:2px;border-radius:2px;background:var(--mb-gold)"></span>
+              </sc-if>
+            </a>
+          </sc-for>
+        </nav>
+        <button onClick="{{ bookNow }}" style="flex-shrink:0;display:inline-flex;align-items:center;gap:7px;background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:11px 22px;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 8px 20px -8px rgba(91,123,101,.6)" style-hover="transform:translateY(-2px);box-shadow:0 14px 26px -10px rgba(91,123,101,.75)">
+          رزرو جلسه
+          <span style="font-size:18px;line-height:0">↩</span>
+        </button>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="display:flex;flex-direction:column;gap:2px;padding:8px 16px 16px;border-top:1px solid var(--mb-line);background:var(--mb-cream)">
         <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="9">
-          <a onClick="{{ item.onClick }}" style="position:relative;padding:8px 12px;font-size:15px;font-weight:500;color:var(--mb-text);cursor:pointer;border-radius:10px;transition:color .2s,background .2s" style-hover="color:var(--mb-green);background:var(--mb-green-soft)">
+          <a onClick="{{ item.onClick }}" style="position:relative;padding:13px 14px;font-size:16px;font-weight:500;color:var(--mb-text);cursor:pointer;border-radius:10px" style-hover="color:var(--mb-green);background:var(--mb-green-soft)">
             {{ item.label }}
-            <sc-if value="{{ item.active }}" hint-placeholder-val="{{ false }}">
-              <span style="position:absolute;bottom:2px;right:12px;left:12px;height:2px;border-radius:2px;background:var(--mb-gold)"></span>
-            </sc-if>
           </a>
         </sc-for>
       </nav>
-      <button onClick="{{ bookNow }}" style="flex-shrink:0;display:inline-flex;align-items:center;gap:7px;background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:11px 22px;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 8px 20px -8px rgba(91,123,101,.6)" style-hover="transform:translateY(-2px);box-shadow:0 14px 26px -10px rgba(91,123,101,.75)">
-        رزرو جلسه
-        <span style="font-size:18px;line-height:0">↩</span>
-      </button>
-    </div>
+    </sc-if>
   </header>
 
   <main style="flex:1">
@@ -79,7 +102,7 @@ input,textarea{font-family:inherit}
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <div style="animation:fadeUp .5s ease both">
       <section style="max-width:1240px;margin:0 auto;padding:64px 24px 40px;display:flex;gap:56px;align-items:center;flex-wrap:wrap">
-        <div style="flex:1;min-width:320px">
+        <div style="flex:1;min-width:260px">
           <div style="display:inline-flex;align-items:center;gap:8px;background:var(--mb-green-soft);color:var(--mb-green);padding:7px 15px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:22px">
             <span style="width:8px;height:8px;border-radius:50%;background:var(--mb-green);animation:pulse 2s infinite"></span>
             روان‌شناسی، کوچینگ و رشد فردی
@@ -107,7 +130,7 @@ input,textarea{font-family:inherit}
             </sc-for>
           </div>
         </div>
-        <div style="flex:1;min-width:320px;position:relative;height:440px">
+        <div style="flex:1;min-width:280px;position:relative;height:clamp(300px,42vw,440px)">
           <div style="position:absolute;inset:0;background:linear-gradient(150deg,#e8efe7,#f3ecdf);border-radius:36px;overflow:hidden">
             <div style="position:absolute;top:-40px;left:-30px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#a9c3b0,#5b7b65);opacity:.55;filter:blur(6px);animation:floaty 7s ease-in-out infinite"></div>
             <div style="position:absolute;bottom:-50px;right:-20px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#e6cd93,#c6a15b);opacity:.5;filter:blur(4px);animation:floaty2 8s ease-in-out infinite"></div>
@@ -593,11 +616,19 @@ input,textarea{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:880},&quot;greenPrimary&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#5b7b65&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;تم رنگی&quot;,&quot;options&quot;:[&quot;#5b7b65&quot;,&quot;#4f6f5a&quot;,&quot;#6f8f74&quot;,&quot;#5a7d8a&quot;]},&quot;goldAccent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#c6a15b&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;تم رنگی&quot;,&quot;options&quot;:[&quot;#c6a15b&quot;,&quot;#d4b678&quot;,&quot;#b98d4a&quot;,&quot;#caa96a&quot;]},&quot;cornerRadius&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:22,&quot;min&quot;:8,&quot;max&quot;:32,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;ظاهر&quot;}}">
 class Component extends DCLogic {
-  state = { page:'home', bookStep:1, service:null, duration:null, date:null, time:null, faqOpen:0, showPrototypeNotice:true };
+  state = { page:'home', bookStep:1, service:null, duration:null, date:null, time:null, faqOpen:0, showPrototypeNotice:true, isNarrow:false, menuOpen:false };
   dismissNotice = () => this.setState({showPrototypeNotice:false});
   stopClick = (e) => { if(e&&e.stopPropagation) e.stopPropagation(); };
+  toggleMenu = () => this.setState(s=>({menuOpen:!s.menuOpen}));
+  closeMenu = () => this.setState({menuOpen:false});
+  checkWidth = () => {
+    if(typeof window==='undefined') return;
+    const narrow = window.innerWidth < 900;
+    this.setState(s=> s.isNarrow!==narrow ? {isNarrow:narrow} : null);
+  };
 
-  componentDidMount(){ this.applyTheme(); }
+  componentDidMount(){ this.applyTheme(); this.checkWidth(); if(typeof window!=='undefined') window.addEventListener('resize', this.checkWidth); }
+  componentWillUnmount(){ if(typeof window!=='undefined') window.removeEventListener('resize', this.checkWidth); }
   componentDidUpdate(){ this.applyTheme(); }
   applyTheme(){
     if(typeof document==='undefined') return;
@@ -607,8 +638,8 @@ class Component extends DCLogic {
     r.setProperty('--mb-radius', (this.props.cornerRadius!=null?this.props.cornerRadius:22)+'px');
   }
   top(){ if(typeof window!=='undefined'){ try{ window.scrollTo(0,0); }catch(e){} } }
-  go(p){ this.setState({page:p}); this.top(); }
-  bookNow(){ this.setState({page:'book',bookStep:1}); this.top(); }
+  go(p){ this.setState({page:p,menuOpen:false}); this.top(); }
+  bookNow(){ this.setState({page:'book',bookStep:1,menuOpen:false}); this.top(); }
   pickBook(id){ this.setState({page:'book',bookStep:2,service:id}); this.top(); }
   selectService(id){ this.setState({service:id,bookStep:2}); }
   selectDuration(m){ this.setState({duration:m,bookStep:3}); }
@@ -628,6 +659,7 @@ class Component extends DCLogic {
     const dismissNotice=this.dismissNotice, stopClick=this.stopClick;
     const nav=[['home','خانه'],['about','درباره ما'],['services','خدمات'],['book','رزرو جلسه'],['blog','وبلاگ'],['courses','دوره‌ها'],['media','پادکست و ویدیو'],['faq','سوالات متداول'],['contact','تماس']];
     const navItems=nav.map(([id,label])=>({id,label,active:S.page===id,onClick:()=>this.go(id)}));
+    const isNarrow=S.isNarrow, isWide=!S.isNarrow, menuOpen=S.menuOpen, toggleMenu=this.toggleMenu, menuIcon=S.menuOpen?'✕':'☰';
 
     const SERVICES=[
       {id:'individual',t:'مشاوره فردی آنلاین',c:'#5b7b65',d:'گفت‌وگوی خصوصی و امن با روان‌شناس متخصص، هر جا که هستی.',long:'جلسه‌ای اختصاصی و محرمانه با روان‌شناس، برای عبور از چالش‌های فردی و رسیدن به آرامش پایدار.'},
@@ -763,6 +795,7 @@ class Component extends DCLogic {
 
     return {
       showPrototypeNotice, dismissNotice, stopClick,
+      isNarrow, isWide, menuOpen, toggleMenu, menuIcon,
       navItems,
       isHome:S.page==='home', isBook:S.page==='book', isAbout:S.page==='about',
       isServices:S.page==='services', isBlog:S.page==='blog', isCourses:S.page==='courses',
