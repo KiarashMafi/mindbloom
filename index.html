@@ -30,6 +30,18 @@ input,textarea{font-family:inherit}
 
 <div dir="rtl" lang="fa" style="min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(1200px 700px at 90% -10%, #eef3ea 0%, transparent 55%), radial-gradient(1000px 600px at -10% 10%, #f3ecdf 0%, transparent 50%), var(--mb-cream)">
 
+  <!-- ===================== PROTOTYPE NOTICE ===================== -->
+  <sc-if value="{{ showPrototypeNotice }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(44,53,45,.55);backdrop-filter:blur(3px);padding:20px" onClick="{{ dismissNotice }}">
+      <div onClick="{{ stopClick }}" style="animation:popIn .35s ease both;background:var(--mb-card);border:1px solid var(--mb-line);border-radius:var(--mb-radius);max-width:420px;width:100%;padding:32px 28px;text-align:center;box-shadow:0 30px 60px -20px rgba(44,53,45,.45)">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--mb-green-soft);color:var(--mb-green);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;margin:0 auto 18px">!</div>
+        <h2 style="font-size:22px;font-weight:800;margin:0 0 10px;letter-spacing:-.3px">این یک نمونه‌ی نمایشی است</h2>
+        <p style="color:var(--mb-muted);font-size:15px;line-height:1.8;margin:0 0 24px">این وب‌سایت صرفاً یک پروتوتایپ است و وب‌سایت واقعی نیست. اطلاعات، رزروها و پیام‌ها واقعی نبوده و ثبت نمی‌شوند.</p>
+        <button onClick="{{ dismissNotice }}" style="background:var(--mb-green);color:#fff;border:none;border-radius:999px;padding:13px 32px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;transition:transform .25s" style-hover="transform:translateY(-2px)">متوجه شدم</button>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- ===================== HEADER ===================== -->
   <header style="position:sticky;top:0;z-index:60;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(246,242,234,.78);border-bottom:1px solid var(--mb-line)">
     <div style="max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:space-between">
@@ -581,7 +593,9 @@ input,textarea{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:880},&quot;greenPrimary&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#5b7b65&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;تم رنگی&quot;,&quot;options&quot;:[&quot;#5b7b65&quot;,&quot;#4f6f5a&quot;,&quot;#6f8f74&quot;,&quot;#5a7d8a&quot;]},&quot;goldAccent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#c6a15b&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;تم رنگی&quot;,&quot;options&quot;:[&quot;#c6a15b&quot;,&quot;#d4b678&quot;,&quot;#b98d4a&quot;,&quot;#caa96a&quot;]},&quot;cornerRadius&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:22,&quot;min&quot;:8,&quot;max&quot;:32,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;ظاهر&quot;}}">
 class Component extends DCLogic {
-  state = { page:'home', bookStep:1, service:null, duration:null, date:null, time:null, faqOpen:0 };
+  state = { page:'home', bookStep:1, service:null, duration:null, date:null, time:null, faqOpen:0, showPrototypeNotice:true };
+  dismissNotice = () => this.setState({showPrototypeNotice:false});
+  stopClick = (e) => { if(e&&e.stopPropagation) e.stopPropagation(); };
 
   componentDidMount(){ this.applyTheme(); }
   componentDidUpdate(){ this.applyTheme(); }
@@ -610,6 +624,8 @@ class Component extends DCLogic {
     const green='var(--mb-green)', soft='var(--mb-green-soft)', line='var(--mb-line)', muted='var(--mb-muted)', card='var(--mb-card)', radius='var(--mb-radius)', text='var(--mb-text)';
     const dot=(c,sz,op,pos)=>Object.assign({position:'absolute',width:sz,height:sz,borderRadius:'50%',background:c,opacity:op},pos);
 
+    const showPrototypeNotice=S.showPrototypeNotice;
+    const dismissNotice=this.dismissNotice, stopClick=this.stopClick;
     const nav=[['home','خانه'],['about','درباره ما'],['services','خدمات'],['book','رزرو جلسه'],['blog','وبلاگ'],['courses','دوره‌ها'],['media','پادکست و ویدیو'],['faq','سوالات متداول'],['contact','تماس']];
     const navItems=nav.map(([id,label])=>({id,label,active:S.page===id,onClick:()=>this.go(id)}));
 
@@ -746,6 +762,7 @@ class Component extends DCLogic {
     const footNav2=[navItems[4],navItems[5],navItems[6],navItems[7]];
 
     return {
+      showPrototypeNotice, dismissNotice, stopClick,
       navItems,
       isHome:S.page==='home', isBook:S.page==='book', isAbout:S.page==='about',
       isServices:S.page==='services', isBlog:S.page==='blog', isCourses:S.page==='courses',
